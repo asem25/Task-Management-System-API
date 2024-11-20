@@ -1,12 +1,12 @@
 package com.semavin.API.repositories;
 
-import com.semavin.API.models.User;
+import com.semavin.API.models.TaskPriority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
-    Optional<User> findById(Long id);
+public interface TaskPriorityRepository extends JpaRepository<TaskPriority, Long> {
+    Optional<TaskPriority> findByNameIgnoreCase(String name);
 }
