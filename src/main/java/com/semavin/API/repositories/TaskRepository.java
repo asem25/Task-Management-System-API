@@ -10,6 +10,7 @@ import java.util.*;
 public interface TaskRepository extends JpaRepository<Task, Long>{
     List<Task> findAllByAuthorId(Long id);
     List<Task> findAllByAssigneeId(Long id);
+    Optional<Task> findByTitleIgnoreCase(String TaskTitle);
     @Query("SELECT t FROM Task t " +
             "JOIN t.taskStatus ts " +
             "JOIN t.taskPriority tp " +

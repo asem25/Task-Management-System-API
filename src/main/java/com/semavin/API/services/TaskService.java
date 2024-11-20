@@ -38,6 +38,10 @@ public class TaskService {
                 .map(this::convertToDTO);
     }
 
+    public Task findByTitle(String TaskTitle){
+        return (taskRepository.findByTitleIgnoreCase(TaskTitle)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found exception")));
+    }
     public void save(TaskDTO taskDTO){
         Task toSave = convertFromDTO(taskDTO);
         toSave.setCreatedAt(LocalDateTime.now());
