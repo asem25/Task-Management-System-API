@@ -4,8 +4,9 @@ import com.semavin.API.dtos.TaskDTO;
 import com.semavin.API.dtos.TaskUpdateDTO;
 import com.semavin.API.models.Task;
 import com.semavin.API.services.TaskService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,21 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping()
-    public ResponseEntity<List<TaskDTO>> findAllWithFilters(@RequestParam(required = false) String status,
-                                                            @RequestParam(required = false) String priority,
-                                                            @RequestParam(required = false) Long authorId,
-                                                            @RequestParam(required = false) Long assigneeId,
-                                                            @RequestParam(required = false) Pageable pageable){
-        return ResponseEntity.ok(taskService.findByFilters(status, priority, authorId, assigneeId, pageable));
+    @GetMapping
+    public ResponseEntity<Page<TaskDTO>> findAllWithFilters(
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String priority,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    )
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<TaskDTO> tasks = taskService.findByFilters(status, priority, currentUserEmail, pageable);
+
+        return ResponseEntity.ok(tasks);
     }
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
@@ -52,11 +61,9 @@ public class TaskController {
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
 
-
         if (!isAssignee && !isAdmin){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Not permissions");
         }
-
 
         taskService.updateTask(id, taskUpdateDTO);
 

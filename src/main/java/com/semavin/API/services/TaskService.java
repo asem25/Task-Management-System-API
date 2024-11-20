@@ -3,10 +3,11 @@ package com.semavin.API.services;
 import com.semavin.API.dtos.TaskDTO;
 import com.semavin.API.dtos.TaskUpdateDTO;
 import com.semavin.API.models.Task;
-import com.semavin.API.models.TaskPriority;
+import com.semavin.API.models.User;
 import com.semavin.API.repositories.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +31,13 @@ public class TaskService {
     }
 
 
-    public List<TaskDTO> findByFilters(String status, String priority, Long authorId, Long assigneeId, Pageable pageable){
-        return taskRepository.findWithFilters(status, priority, authorId, assigneeId, pageable).stream()
-                .map(this::convertToDTO)
-                .toList();
+    public Page<TaskDTO> findByFilters(String status, String priority, String currentUserEmail, Pageable pageable) {
+        User currentUser = userService.findUserByEmail(currentUserEmail);
+
+        return taskRepository.findWithFilters(currentUser.getId(), status, priority,  pageable)
+                .map(this::convertToDTO);
     }
+
     public void save(TaskDTO taskDTO){
         Task toSave = convertFromDTO(taskDTO);
         toSave.setCreatedAt(LocalDateTime.now());
@@ -59,6 +62,7 @@ public class TaskService {
     public void deleteTask(Long id) {
         taskRepository.delete(this.findById(id));
     }
+
     private TaskDTO convertToDTO(Task task){
         return TaskDTO.builder()
                 .priority(task.getTaskPriority().getName())
@@ -74,12 +78,10 @@ public class TaskService {
                 .title(taskDTO.getTitle())
                 .description(taskDTO.getDescription())
                 .taskStatus(taskStatusService.getObjectTaskStatusFromName(taskDTO.getStatus()))
-                .assignee(userService.findById(taskDTO.getAssigneeId()))
-                .author(userService.findById(taskDTO.getAuthorId()))
+                .assignee(userService.findUserById(taskDTO.getAssigneeId()))
+                .author(userService.findUserById(taskDTO.getAuthorId()))
                 .build();
 
     }
-
-
 
 }
