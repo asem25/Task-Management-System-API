@@ -2,6 +2,7 @@ package com.semavin.API.services;
 
 import com.semavin.API.models.TaskPriority;
 import com.semavin.API.repositories.TaskPriorityRepository;
+import com.semavin.API.utils.TaskPriorityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,6 @@ public class TaskPriorityService {
     }
     public TaskPriority getObjectPriorityForName(String name){
         return taskPriorityRepository.findByNameIgnoreCase(name)
-                .orElseThrow(() -> new IllegalArgumentException("Not found priority"));
+                .orElseThrow(() -> new TaskPriorityNotFoundException("Not found priority"));
     }
 }

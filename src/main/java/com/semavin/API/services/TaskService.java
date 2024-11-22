@@ -5,6 +5,8 @@ import com.semavin.API.dtos.TaskUpdateDTO;
 import com.semavin.API.models.Task;
 import com.semavin.API.models.User;
 import com.semavin.API.repositories.TaskRepository;
+import com.semavin.API.utils.TaskNotFoundException;
+import com.semavin.API.utils.TaskPriorityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +42,7 @@ public class TaskService {
 
     public Task findByTitle(String TaskTitle){
         return (taskRepository.findByTitleIgnoreCase(TaskTitle)
-                .orElseThrow(() -> new IllegalArgumentException("Task not found exception")));
+                .orElseThrow(() -> new TaskNotFoundException("Task not found exception")));
     }
     public void save(TaskDTO taskDTO){
         Task toSave = convertFromDTO(taskDTO);
@@ -50,10 +52,10 @@ public class TaskService {
     }
     public Task findById(Long id){
         return taskRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("Task not found"));
+                .orElseThrow(()-> new TaskNotFoundException("Task not found"));
     }
     public void updateTask(Long id, TaskUpdateDTO taskUpdateDTO) {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found"));
+        Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Not found"));
 
         task.setUpdatedAt(LocalDateTime.now());
         task.setTaskPriority(taskPriorityService.getObjectPriorityForName(taskUpdateDTO.getPriority()));

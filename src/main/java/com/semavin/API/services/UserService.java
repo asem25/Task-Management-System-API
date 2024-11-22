@@ -4,6 +4,7 @@ import com.semavin.API.dtos.UserDTO;
 import com.semavin.API.dtos.UserResponseDTO;
 import com.semavin.API.repositories.UserRepository;
 import com.semavin.API.utils.TaskUtils;
+import com.semavin.API.utils.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.semavin.API.models.User;
@@ -23,25 +24,24 @@ public class UserService {
         this.userRepository = userRepository;
         this.taskUtils = taskUtils;
     }
-    // TODO обработка исключения на уровне сервиса
     public User findUserByEmail(String email){
-        return (userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException(
+        return (userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(
                 "User not found")));
     }
     public UserResponseDTO findUserResponseByEmail(String email){
-        return convertToDTO(userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException(
+        return convertToDTO(userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(
                 "User not found")));
     }
     public UserResponseDTO findUserResponseDTOById(Long id){
         return convertToDTO(userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found")));
+                .orElseThrow(() -> new UserNotFoundException("User not found")));
     }
     public void save(UserDTO userDTO){
         userRepository.save(convertToUser(userDTO));
     }
     public User findUserById(Long id){
         return userRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("Not found user"));
+                .orElseThrow(()-> new UserNotFoundException("Not found user"));
     }
     public List<UserResponseDTO> showAll(){
         return userRepository.findAll().stream()
