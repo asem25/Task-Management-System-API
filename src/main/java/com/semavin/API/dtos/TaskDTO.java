@@ -3,6 +3,7 @@ package com.semavin.API.dtos;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -28,9 +29,9 @@ public class TaskDTO {
     private String priority;
 
     @Schema(description = "ID автора задачи", example = "1")
-    @NotBlank
+    @NotNull
     private Long authorId;
-    @NotBlank
+    @NotNull
     @Schema(description = "ID исполнителя задачи", example = "2")
     private Long assigneeId;
 }

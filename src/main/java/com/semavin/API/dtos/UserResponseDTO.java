@@ -1,7 +1,6 @@
 package com.semavin.API.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,5 +15,5 @@ public class UserResponseDTO {
     @Schema(description = "Список задач, где пользователь автор")
     private List<TaskResponseDTO> tasksWhereAuthors;
     @Schema(description = "Список задач, где пользователь исполнитель")
-    private List<TaskResponseDTO> taskWhereAssignee;
+    private List<TaskResponseDTO> tasksWhereAssignee;
 }

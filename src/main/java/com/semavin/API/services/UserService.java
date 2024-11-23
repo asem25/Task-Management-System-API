@@ -61,7 +61,7 @@ public class UserService {
                 .email(user.getEmail())
                 .role(user.getRole().getName())
                 .tasksWhereAuthors(taskUtils.findTasksByAuthor(user.getId()))
-                .taskWhereAssignee(taskUtils.findTasksByAssignee(user.getId()))
+                .tasksWhereAssignee(taskUtils.findTasksByAssignee(user.getId()))
                 .build();
     }
 }
