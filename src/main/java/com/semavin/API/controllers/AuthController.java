@@ -1,14 +1,12 @@
 package com.semavin.API.controllers;
 
 import com.semavin.API.dtos.UserDTO;
-import com.semavin.API.models.User;
 import com.semavin.API.security.jwt.JwtTokenProvider;
 import com.semavin.API.services.UserService;
-import com.semavin.API.utils.UserFieldsErrorException;
+import com.semavin.API.utils.exceptions.UserAlreadyExistsException;
+import com.semavin.API.utils.exceptions.UserFieldsErrorException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,12 +46,12 @@ public class AuthController {
     )
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO user,
-                                      BindingResult bindingResult) throws UserFieldsErrorException{
+                                      BindingResult bindingResult) throws UserFieldsErrorException, UserAlreadyExistsException {
         if (bindingResult.hasErrors()){
             throw new UserFieldsErrorException(bindingResult.getFieldErrors());
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.save(user);
+        userService.registerUser(user);
         return ResponseEntity.ok("User registered successfully");
     }
     @Operation(summary = "Авторизация пользователя", description = "Авторизует пользователя и возвращает JWT токен.")
@@ -65,14 +64,19 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserDTO user,
                                    BindingResult bindingResult) throws UserFieldsErrorException{
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-        String token = jwtTokenProvider.generateToken(authentication.getName(),
-                authentication.getAuthorities().iterator().next().getAuthority());
         if (bindingResult.hasErrors()){
             throw new UserFieldsErrorException(bindingResult.getFieldErrors());
         }
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+            String token = jwtTokenProvider.generateToken(authentication.getName(),
+                    authentication.getAuthorities().iterator().next().getAuthority());
+            return ResponseEntity.ok(token);
+        }catch (AuthenticationException e){
+            return ResponseEntity.status(403).body("Authentication for user: " + user.getEmail());
+        }
 
-        return ResponseEntity.ok(token);
+
     }
 }

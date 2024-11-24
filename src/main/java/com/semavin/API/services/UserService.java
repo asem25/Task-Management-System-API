@@ -4,7 +4,8 @@ import com.semavin.API.dtos.UserDTO;
 import com.semavin.API.dtos.UserResponseDTO;
 import com.semavin.API.repositories.UserRepository;
 import com.semavin.API.utils.TaskUtils;
-import com.semavin.API.utils.UserNotFoundException;
+import com.semavin.API.utils.exceptions.UserAlreadyExistsException;
+import com.semavin.API.utils.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.semavin.API.models.User;
@@ -47,6 +48,13 @@ public class UserService {
         return userRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .toList();
+    }
+    public void registerUser(UserDTO user){
+        userRepository.findByEmail(user.getEmail()).ifPresent(user_present -> {
+            throw new UserAlreadyExistsException("User with this email already exists: " + user.getEmail());
+        });
+
+        this.save(user);
     }
     private User convertToUser(UserDTO userDTO){
         return User.builder()

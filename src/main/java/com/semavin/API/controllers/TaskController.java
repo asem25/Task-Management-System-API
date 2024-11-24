@@ -2,10 +2,9 @@ package com.semavin.API.controllers;
 
 import com.semavin.API.dtos.TaskDTO;
 import com.semavin.API.dtos.TaskUpdateDTO;
-import com.semavin.API.dtos.UserDTO;
 import com.semavin.API.models.Task;
 import com.semavin.API.services.TaskService;
-import com.semavin.API.utils.TaskFieldsErrorException;
+import com.semavin.API.utils.exceptions.TaskFieldsErrorException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,8 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 
 @RestController

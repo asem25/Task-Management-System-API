@@ -2,7 +2,7 @@ package com.semavin.API.services;
 
 import com.semavin.API.models.TaskPriority;
 import com.semavin.API.repositories.TaskPriorityRepository;
-import com.semavin.API.utils.TaskPriorityNotFoundException;
+import com.semavin.API.utils.exceptions.TaskPriorityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

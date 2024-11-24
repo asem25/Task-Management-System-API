@@ -1,4 +1,4 @@
-package com.semavin.API.utils;
+package com.semavin.API.utils.exceptions;
 
 public class RoleNotFoundException extends RuntimeException{
     public RoleNotFoundException(String message) {

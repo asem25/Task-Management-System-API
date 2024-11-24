@@ -2,7 +2,7 @@ package com.semavin.API.services;
 
 import com.semavin.API.models.Role;
 import com.semavin.API.repositories.RoleRepository;
-import com.semavin.API.utils.RoleNotFoundException;
+import com.semavin.API.utils.exceptions.RoleNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

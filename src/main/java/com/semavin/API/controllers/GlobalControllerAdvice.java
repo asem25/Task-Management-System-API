@@ -1,6 +1,6 @@
 package com.semavin.API.controllers;
 
-import com.semavin.API.utils.*;
+import com.semavin.API.utils.exceptions.*;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,5 +36,9 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(FieldErrorException.class)
     public ResponseEntity<String> handleFieldErrorException(FieldErrorException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException userAlreadyExistsException){
+        return ResponseEntity.badRequest().body(userAlreadyExistsException.getMessage());
     }
 }

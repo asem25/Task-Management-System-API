@@ -1,4 +1,4 @@
-package com.semavin.API.utils;
+package com.semavin.API.utils.exceptions;
 
 public class TaskNotFoundException extends RuntimeException{
     public TaskNotFoundException(String message) {

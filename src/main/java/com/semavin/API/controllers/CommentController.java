@@ -3,7 +3,7 @@ package com.semavin.API.controllers;
 import com.semavin.API.dtos.CommentDTO;
 import com.semavin.API.models.Comment;
 import com.semavin.API.services.CommentService;
-import com.semavin.API.utils.CommentFieldsErrorException;
+import com.semavin.API.utils.exceptions.CommentFieldsErrorException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

@@ -1,4 +1,4 @@
-package com.semavin.API.utils;
+package com.semavin.API.utils.exceptions;
 
 public class TaskPriorityNotFoundException extends RuntimeException{
     public TaskPriorityNotFoundException(String message) {

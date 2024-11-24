@@ -2,8 +2,7 @@ package com.semavin.API.services;
 
 import com.semavin.API.models.TaskStatus;
 import com.semavin.API.repositories.TaskStatusRepository;
-import com.semavin.API.utils.TaskNotFoundException;
-import com.semavin.API.utils.TaskStatusNotFoundException;
+import com.semavin.API.utils.exceptions.TaskStatusNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

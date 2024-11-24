@@ -4,9 +4,7 @@ import com.semavin.API.dtos.CommentDTO;
 import com.semavin.API.models.Comment;
 import com.semavin.API.models.Task;
 import com.semavin.API.repositories.CommentRepository;
-import com.semavin.API.utils.CommentNotFoundException;
-import com.semavin.API.utils.TaskUtils;
-import org.hibernate.tool.schema.spi.CommandAcceptanceException;
+import com.semavin.API.utils.exceptions.CommentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

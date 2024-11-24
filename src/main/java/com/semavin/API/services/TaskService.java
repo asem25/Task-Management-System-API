@@ -5,8 +5,7 @@ import com.semavin.API.dtos.TaskUpdateDTO;
 import com.semavin.API.models.Task;
 import com.semavin.API.models.User;
 import com.semavin.API.repositories.TaskRepository;
-import com.semavin.API.utils.TaskNotFoundException;
-import com.semavin.API.utils.TaskPriorityNotFoundException;
+import com.semavin.API.utils.exceptions.TaskNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+
 @Service
 @Transactional
 @RequiredArgsConstructor

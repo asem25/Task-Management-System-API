@@ -1,4 +1,4 @@
-package com.semavin.API.utils;
+package com.semavin.API.utils.exceptions;
 
 import org.springframework.validation.FieldError;
 
