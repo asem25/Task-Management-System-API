@@ -68,8 +68,8 @@
 
 ## Стек технологий
 
-- **Java 17**
-- **Spring Boot 3.3.4**
+- **Java 21**
+- **Spring Boot 3.3.5**
 - **Spring Security** для аутентификации и авторизации.
 - **PostgreSQL** как база данных.
 - **Swagger/OpenAPI** для документирования API.
