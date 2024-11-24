@@ -5,9 +5,9 @@ services:
     ports:
       - "8081:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/*
-      SPRING_DATASOURCE_USERNAME: *
-      SPRING_DATASOURCE_PASSWORD: *
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/TMS_API
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
     depends_on:
       - db
     networks:
@@ -18,9 +18,9 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_USER: *
-      POSTGRES_PASSWORD: *
-      POSTGRES_DB: *
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: TMS_API
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
