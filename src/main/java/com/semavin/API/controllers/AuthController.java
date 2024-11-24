@@ -74,7 +74,7 @@ public class AuthController {
                     authentication.getAuthorities().iterator().next().getAuthority());
             return ResponseEntity.ok(token);
         }catch (AuthenticationException e){
-            return ResponseEntity.status(403).body("Authentication for user: " + user.getEmail());
+            return ResponseEntity.status(403).body("Authentication error for user: " + user.getEmail());
         }
 
 
