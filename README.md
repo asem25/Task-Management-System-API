@@ -46,7 +46,7 @@
   ```bash
   docker-compose up
   ```
-4. Swagger UI будет доступен по адресу: http://localhost:8080/swagger-ui/index.html
+4. Swagger UI будет доступен по адресу: http://localhost:8081/swagger-ui/index.html
 
 
 
@@ -84,5 +84,9 @@
       bash
       /mvnw test
 
-  
+### Структура проекта
+
+- **src/main/java** — исходный код приложения
+- **src/main/resources** — конфигурационные файлы
+- **src/test/java** — тесты  
 
